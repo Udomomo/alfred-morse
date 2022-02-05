@@ -1,3 +1,4 @@
+# coding: utf-8
 import sys
 
 MORSE_CODE_DICT_EN = {
