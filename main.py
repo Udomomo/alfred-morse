@@ -1,4 +1,6 @@
 # coding: utf-8
+
+import json
 import sys
 
 MORSE_CODE_DICT_EN = {
@@ -40,6 +42,8 @@ def decrypt(args):
   
 
 def morse_to_letters(input, morse_dict):
+  if not input:
+    return 'No morse code input.'
   reversed_dict = {value:key for key,value in morse_dict.items()}
   result = ''
   for m in input:
@@ -47,4 +51,11 @@ def morse_to_letters(input, morse_dict):
   return result
 
 if __name__ == '__main__':
-  sys.stdout.write(decrypt(sys.argv))
+  result = {
+    'items': [{
+      'uid': 'morse',
+      'title': decrypt(sys.argv),
+      'arg': decrypt(sys.argv)
+    }]
+  }
+  sys.stdout.write(json.dumps(result, ensure_ascii=False))
