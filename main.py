@@ -4,11 +4,11 @@ import json
 import sys
 
 MORSE_CODE_DICT_EN = {
-  'A': '.-', 'B': '-...', 'C':'-.-.', 'D':'-..', 'E':'.', 'F':'..-.', 
-  'G':'--.', 'H':'....', 'I':'..', 'J':'.---', 'K':'-.-', 'L':'.-..',
-  'M':'--', 'N':'-.', 'O':'---', 'P':'.--.', 'Q':'--.-', 'R':'.-.', 
-  'S':'...', 'T':'-', 'U':'..-', 'V':'...-', 'W':'.--', 'X':'-..-', 
-  'Y':'-.--', 'Z':'--..', '1':'.----', '2':'..---', '3':'...--', 
+  'a': '.-', 'b': '-...', 'c':'-.-.', 'd':'-..', 'e':'.', 'f':'..-.', 
+  'g':'--.', 'h':'....', 'i':'..', 'j':'.---', 'k':'-.-', 'l':'.-..',
+  'm':'--', 'n':'-.', 'o':'---', 'p':'.--.', 'q':'--.-', 'r':'.-.', 
+  's':'...', 't':'-', 'u':'..-', 'v':'...-', 'w':'.--', 'x':'-..-', 
+  'y':'-.--', 'z':'--..', '1':'.----', '2':'..---', '3':'...--', 
   '4':'....-', '5':'.....', '6':'-....', '7':'--...', '8':'---..', 
   '9':'----.', '0':'-----', ', ':'--..--', '.':'.-.-.-', '?':'..--..', 
   '/':'-..-.', '-':'-....-', '(':'-.--.', ')':'-.--.-'
@@ -31,17 +31,16 @@ MORSE_CODE_DICT_JA = {
   '6':'-....', '7':'--...', '8':'---..', '9':'----.', '0':'-----'
 }
 
-def decrypt(args):
-  lang = args[1]
+def decrypt(lang, input):
   if lang == 'ja':
-    return morse_to_letters(args[2:], MORSE_CODE_DICT_JA)
+    return _morse_to_letters(input, MORSE_CODE_DICT_JA)
   elif lang == 'en':
-    return morse_to_letters(args[2:], MORSE_CODE_DICT_EN)
+    return _morse_to_letters(input, MORSE_CODE_DICT_EN)
   else:
     return 'Invalid argument. Usage: <lang (`ja` or `en`)> <morse code (`.` or `-`, split by space)>)'
   
 
-def morse_to_letters(input, morse_dict):
+def _morse_to_letters(input, morse_dict):
   if not input:
     return 'No morse code input.'
   reversed_dict = {value:key for key,value in morse_dict.items()}
@@ -51,11 +50,13 @@ def morse_to_letters(input, morse_dict):
   return result
 
 if __name__ == '__main__':
+  args = sys.argv[1].split()
+  lang, input = args[0], args[1:]
   result = {
     'items': [{
       'uid': 'morse',
-      'title': decrypt(sys.argv),
-      'arg': decrypt(sys.argv)
+      'title': decrypt(lang, input),
+      'arg': decrypt(lang, input)
     }]
   }
   sys.stdout.write(json.dumps(result, ensure_ascii=False))
